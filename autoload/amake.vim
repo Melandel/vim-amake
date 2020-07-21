@@ -50,23 +50,17 @@ endfun
 
 
 fun! amake#start(bang, makeprg_name, errorformat_name, autocmd, args) abort
-	let args = escape(a:args, '\')
   let makeprg = eval("&" . a:makeprg_name)
   let errorformat = eval("&" . a:errorformat_name)
   if empty(makeprg)
     return s:error("&" . a:makeprg_name . " is empty")
   endif
-  call s:start(a:bang, makeprg, errorformat, a:autocmd, args)
+  call s:start(a:bang, makeprg, errorformat, a:autocmd, a:args)
 endfun
 
 fun! s:expand(cmd, args) abort
   " expand args
   let cmd = substitute(a:cmd, '\$\*', a:args, 'g')
-
-  " from tpope's vim-dispatch https://github.com/tpope/vim-dispatch
-  let s:flags = '<\=\%(:[p8~.htre]\|:g\=s\(.\).\{-\}\1.\{-\}\1\)*'
-  let s:expandable = '\\*\%(<\w\+>\|%\|#\d*\)' . s:flags
-  let cmd = substitute(cmd, s:expandable, '\=expand(submatch(0))', 'g')
 
   " trim whitespace
   return substitute(cmd, '^\s*\|\s*$', '', 'g')
