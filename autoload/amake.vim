@@ -141,7 +141,7 @@ fun! s:open_qf(exit_status, job) abort
   call delete(a:job.output_file)
 
   if (a:exit_status)
-     botright copen
+     botright cwindow
   endif
 
   let is_in_qf = &buftype ==# 'quickfix'
