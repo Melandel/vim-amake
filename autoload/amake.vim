@@ -40,7 +40,7 @@ fun! AmakeRunning()
 endfun
 
 fun! s:l(msg)
-  :call writefile([a:msg], "/tmp/event.log", "a")
+  :call writefile([a:msg], $HOME . "\\Desktop\\tmp\\vim\\amake_event.log", "a")
 endfun
 
 fun! s:error (msg)
@@ -50,12 +50,13 @@ endfun
 
 
 fun! amake#start(bang, makeprg_name, errorformat_name, autocmd, args) abort
+	let args = escape(a:args, '\')
   let makeprg = eval("&" . a:makeprg_name)
   let errorformat = eval("&" . a:errorformat_name)
   if empty(makeprg)
     return s:error("&" . a:makeprg_name . " is empty")
   endif
-  call s:start(a:bang, makeprg, errorformat, a:autocmd, a:args)
+  call s:start(a:bang, makeprg, errorformat, a:autocmd, args)
 endfun
 
 fun! s:expand(cmd, args) abort
